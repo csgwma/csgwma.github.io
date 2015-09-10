@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>机器学习与知识发现</title>
+</head>
+
+<body style="width:960px; margin: 0 auto;">
+<table id="header"> 
+	<tbody><tr>   
+		<td>
+			<div class="coursetitle"><b><font size="5">CS05141: Machine Learning and Knowledge Discovery</font></b></div><b> 
+			<font size="4">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Fall 2013<br><br>
+				<b><font size="5"><a href="http://dm.ustc.edu.cn/member.html" rel="external" class="lecturer">Enhong Chen</a></font></b><br> 
+                 School of Computer Science and Technology, USTC
+            </font>
+        </b></td> 
+    </tr>  
+</tbody></table>
+
+<hr>
+
+<h3>Final Project：移动用户交往圈构建和特定类型用户识别</h3>
+备注：题目来源中国第一届大数据技术创新大赛 竞赛试题之一: <a href="http://www.bigcloudsys.com/ccf2013/detail2.html" rel="external">移动用户交往圈构建和特定类型用户识别</a>
+<hr>
+<h3>背景介绍</h3>
+为实现特定新业务的精准营销，同时面向不同类型用户的消费特征和行为，设计更优的服务套餐，提升用户感知和粘度。移动运营商希望根据目标用户群某个周期内的通话、短信、接入服务位置等信息，建立目标用户群的交往圈，并在交往圈内识别出符合特定业务设计特征的营销对象。
+本次赛题拟针对校园基站覆盖区域内的用户通话和短信交往行为,进行校园区域内学生客户群体的识别。
+<br>
+<hr>
+<h3>数据描述：</h3>
+<strong>（1）主要数据</strong>：拥有2千万用户的某省公司，校园基站区域内用户（150万规模）的3个月的通话、短信记录（模拟数据）。 <br>
+注：本次实验数据：150用户中已标注身份信息的15万用户信息,及其通话记录。<br>
+<strong>（2）数据说明</strong>：共3个表 <br>
+
+<p>校园基站用户信息表（约150万，用作训练集、测试集、验证集） </p>
+<table border="1" cellspacing="0" cellpadding="0" width="328">
+  <tbody><tr>
+    <td width="102" valign="top">属性字段 </td>
+    <td width="80" valign="top">类型 </td>
+    <td width="80" valign="top">说明</td>
+  </tr>
+  <tr>
+    <td width="102" valign="top">USER_ID </td>
+    <td width="80" valign="top">字符串</td>
+    <td width="80" valign="top">用户ID</td>
+  </tr>
+  <tr>
+    <td width="102" valign="top">SCHOOL_ID</td>
+    <td width="80" valign="top">字符串</td>
+    <td width="80" valign="top">学校ID</td>
+  </tr>
+  <tr>
+    <td width="102" valign="top">STUENT_FLAG</td>
+    <td width="80" valign="top">布尔 </td>
+    <td width="80" valign="top">是否学生</td>
+  </tr>
+</tbody></table>
+<br>
+<p>校园基站用户短信记录（1个月的短信记录汇总结果） </p>
+<table border="1" cellspacing="0" cellpadding="0" width="328">
+  <tbody><tr>
+    <td width="142" valign="top">属性字段 </td>
+    <td width="82" valign="top">类型 </td>
+    <td width="96" valign="top">说明</td>
+  </tr>
+  <tr>
+    <td width="142" valign="top">USER_ID</td>
+    <td width="82" valign="top">字符串</td>
+    <td width="96" valign="top">用户ID</td>
+  </tr>
+  <tr>
+    <td width="142" valign="top">OPPOSITE_USER_ID</td>
+    <td width="82" valign="top">字符串</td>
+    <td width="96" valign="top">对端用户ID</td>
+  </tr>
+  <tr>
+    <td width="142" valign="top">P2P_SMS_COUNTS</td>
+    <td width="82" valign="top">整数</td>
+    <td width="96" valign="top">短信条数</td>
+  </tr>
+</tbody></table>
+<br>
+<p>校园基站用户通话记录（1个月的通话记录汇总结果） </p>
+<table border="1" cellspacing="0" cellpadding="0" width="328">
+  <tbody><tr>
+    <td width="142" valign="top">属性字段 </td>
+    <td width="74" valign="top">类型</td>
+    <td width="111" valign="top">说明</td>
+  </tr>
+  <tr>
+    <td width="142" valign="top">USER_ID</td>
+    <td width="74" valign="top">字符串</td>
+    <td width="111" valign="top">主叫用户ID</td>
+  </tr>
+  <tr>
+    <td width="142" valign="top">OPPOSITE_USER_ID</td>
+    <td width="74" valign="top">字符串</td>
+    <td width="111" valign="top">被叫用户ID</td>
+  </tr>
+  <tr>
+    <td width="142" valign="top">CALL_COUNT</td>
+    <td width="74" valign="top">整数 </td>
+    <td width="111" valign="top">通话次数</td>
+  </tr>
+  <tr>
+    <td width="142" valign="top">CALL_DURATION_M</td>
+    <td width="74" valign="top">整数</td>
+    <td width="111" valign="top">通话时长</td>
+  </tr>
+</tbody></table>
+<br>
+<strong>数据下载: </strong><br><br>
+<a href="./datasets/school_user_info_label"> 用户信息数据</a>  &nbsp&nbsp&nbsp
+<a href="./datasets/school_sms_sphere_label"> 用户短信记录</a>  &nbsp&nbsp&nbsp
+<a href="./datasets/school_call_sphere_label"> 用户通话记录</a> 
+
+
+<hr>
+<h3>任务描述</h3>
+<p>以上述3个表中记录的用户信息、通话信息、短信信息为基础。（训练集、测试集、验证集可自行划分，建议采用十字交叉验证）<!--构建挖掘模型识别出上述170万用户中，所有可能的学生用户。--> <br>
+训练集：从校园基站用户信息表中提供15万的已标记为是否学生用户的集合，作为模型训练用集合 <br>
+测试集：模型建立者按照自己需求从15万训练集中抽取 <br>
+验证集（模型结果指标评比用）：出题方根据已标记的学生用户，对参赛方提供的学生用户结果集进行比对，然后计算各项评比指标（准确率、召回率、F调和均值） <br>
+注： <br>
+1.准确率、召回率和F-Measure值等量化指标作为第一优先评价指标 <br>
+2.在上述评价指标相当的同等条件下，采用图挖掘算法的参赛者具有加分 <br>
+3.在上述评价指标相当的同等条件下，能提供根据用户ID快速查询通话交往圈和短信交往圈的参赛者具有加分 </p>
+
+<hr>
+<h3>评判标准：</h3>
+<p>（1）评价指标为：预测模型给出的属于目标客户（学生客户）的概率列表，与验证集中属于目标客户的用户列表的一致性，即准确性及召回率指标的F调和平均值（F-Measure）</p>
+	<p>（2）按照代码执行效率和代码的质量进行评价</p>
+	<p>（3）是否具有上述加分项 </p>
+<hr>
+
+<h3>提交材料</h3>
+学生交往圈识别应提交的材料包括<br><br>
+<!-- 1．结果文件【必选】结果文件格式（txt文件格式）：USER_ID|SCHOOL_ID|STUENT_FLAG 样例：401000000425|79170100000002|1 （0-非学生 1-学生）<br> -->
+<li>方案（处理过程、核心算法、所用软件）说明【必选】</li><br>
+<li>程序及程序详细使用说明【必选】</li><br>
+<li>代码及说明【必选】</li><br>
+<li>其他辅助材料【可选】</li><br>
+<hr>
+</body></html>
